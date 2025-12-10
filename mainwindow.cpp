@@ -11,12 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupConnections();
     updateUI();
-    qDebug() << "Приложение запущено, загружены значения из файла";
+    qDebug() << "The application is running, the values from the file are loaded";
 }
 
 MainWindow::~MainWindow() {
     model.saveToFile("model_data.txt");
-    qDebug() << "Приложение закрыто, значения сохранены в файл";
+    qDebug() << "The application is closed, the values are saved to a file.";
     delete ui;
 }
 
@@ -56,8 +56,8 @@ void MainWindow::updateUI() {
     // Отладочный вывод
     static int updateCount = 0;
     updateCount++;
-    qDebug() << "updateUI вызван" << updateCount << "раз. Значения: A="
-             << model.getA() << "B=" << model.getB() << "C=" << model.getC();
+    qDebug() << updateCount << "A ="
+             << model.getA() << "B =" << model.getB() << "C =" << model.getC();
 }
 
 void MainWindow::on_Model_dataChanged() {
