@@ -23,7 +23,7 @@ public:
     void saveToFile(const QString& filename);
     void loadFromFile(const QString& filename);
 
-signals:
+Q_SIGNALS:
     void dataChanged();
 };
 

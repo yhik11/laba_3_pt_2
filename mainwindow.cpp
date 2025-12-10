@@ -7,11 +7,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    model.loadFromFile("model_data.txt");
+
     setupConnections();
     updateUI();
+    qDebug() << "Приложение запущено, загружены значения из файла";
 }
 
 MainWindow::~MainWindow() {
+    model.saveToFile("model_data.txt");
+    qDebug() << "Приложение закрыто, значения сохранены в файл";
     delete ui;
 }
 
