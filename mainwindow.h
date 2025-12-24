@@ -16,28 +16,21 @@ public:
     ~MainWindow();
 
 private slots:
+    void updateUI();
 
-    void on_Model_dataChanged();
-
+    // Слоты для auto-connect
     void on_spinBoxA_valueChanged(int value);
-
-
-    void on_spinBoxB_valueChanged(int arg1);
-
-    void on_spinBoxC_valueChanged(int arg1);
-
+    void on_spinBoxB_valueChanged(int value);
+    void on_spinBoxC_valueChanged(int value);
     void on_SliderA_valueChanged(int value);
-
     void on_SliderB_valueChanged(int value);
-
     void on_SliderC_valueChanged(int value);
 
 private:
+    void setupConnections();
+
     Ui::MainWindow *ui;
     Model model;
-
-    void updateUI();
-    void setupConnections();
 };
 
 #endif // MAINWINDOW_H

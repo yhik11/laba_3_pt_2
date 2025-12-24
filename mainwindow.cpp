@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QDir>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,23 +18,45 @@ MainWindow::MainWindow(QWidget *parent)
     ui->SliderB->setRange(0, 100);
     ui->SliderC->setRange(0, 100);
 
+    // Загружаем данные из файла
     model.loadFromFile("model_data.txt");
 
     setupConnections();
-    // updateUI(); // УДАЛЕНО - вызовется автоматически через on_Model_dataChanged()
 
-    qDebug() << "The application is running";
+    // Принудительно обновляем UI сразу после загрузки
+    updateUI();
+
+    qDebug() << "Application started";
+    qDebug() << "Initial values: A=" << model.getA()
+             << "B=" << model.getB()
+             << "C=" << model.getC() << "\n";
 }
 
 MainWindow::~MainWindow() {
+    // Сохраняем данные при закрытии
     model.saveToFile("model_data.txt");
-    qDebug() << "The application is closed, the values are saved to a file.";
+    qDebug() << "Application closed, values saved to model_data.txt";
     delete ui;
 }
 
 void MainWindow::setupConnections() {
-    // Подключаем сигнал модели к слоту
-    connect(&model, &Model::dataChanged, this, &MainWindow::on_Model_dataChanged);
+    // Подключаем сигнал модели к обновлению UI
+    connect(&model, &Model::dataChanged, this, &MainWindow::updateUI);
+
+    // Подключаем UI элементы к модели
+    connect(ui->spinBoxA, QOverload<int>::of(&QSpinBox::valueChanged),
+            &model, &Model::setA);
+    connect(ui->spinBoxB, QOverload<int>::of(&QSpinBox::valueChanged),
+            &model, &Model::setB);
+    connect(ui->spinBoxC, QOverload<int>::of(&QSpinBox::valueChanged),
+            &model, &Model::setC);
+
+    connect(ui->SliderA, &QSlider::valueChanged,
+            &model, &Model::setA);
+    connect(ui->SliderB, &QSlider::valueChanged,
+            &model, &Model::setB);
+    connect(ui->SliderC, &QSlider::valueChanged,
+            &model, &Model::setC);
 }
 
 void MainWindow::updateUI() {
@@ -45,11 +69,9 @@ void MainWindow::updateUI() {
     ui->SliderB->blockSignals(true);
     ui->SliderC->blockSignals(true);
 
-    // ВАЖНО: Обновляем диапазон слайдера B в зависимости от A и C!
-    ui->SliderB->setMinimum(model.getA());  // B не может быть меньше A
-    ui->SliderB->setMaximum(model.getC());  // B не может быть больше C
-
-    // Также обновляем spinBoxB диапазон
+    // Обновляем диапазон слайдера B в зависимости от A и C
+    ui->SliderB->setMinimum(model.getA());
+    ui->SliderB->setMaximum(model.getC());
     ui->spinBoxB->setMinimum(model.getA());
     ui->spinBoxB->setMaximum(model.getC());
 
@@ -71,30 +93,25 @@ void MainWindow::updateUI() {
     ui->SliderB->blockSignals(false);
     ui->SliderC->blockSignals(false);
 
-    // Отладочный вывод
     static int updateCount = 0;
     updateCount++;
     qDebug() << "UI Update #" << updateCount
-             << ": A =" << model.getA()
-             << "B =" << model.getB()
-             << "C =" << model.getC()
-             << "(B range: [" << model.getA() << "-" << model.getC() << "])";
+             << ": A=" << model.getA()
+             << "B=" << model.getB()
+             << "C=" << model.getC();
 }
 
-void MainWindow::on_Model_dataChanged() {
-    updateUI();
-}
-
+// Слоты для ручного подключения (если используешь auto-connect)
 void MainWindow::on_spinBoxA_valueChanged(int value) {
     model.setA(value);
 }
 
-void MainWindow::on_spinBoxB_valueChanged(int arg1) {
-    model.setB(arg1);
+void MainWindow::on_spinBoxB_valueChanged(int value) {
+    model.setB(value);
 }
 
-void MainWindow::on_spinBoxC_valueChanged(int arg1) {
-    model.setC(arg1);
+void MainWindow::on_spinBoxC_valueChanged(int value) {
+    model.setC(value);
 }
 
 void MainWindow::on_SliderA_valueChanged(int value) {

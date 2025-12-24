@@ -39,12 +39,11 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "MainWindow",
-        "on_Model_dataChanged",
+        "updateUI",
         "",
         "on_spinBoxA_valueChanged",
         "value",
         "on_spinBoxB_valueChanged",
-        "arg1",
         "on_spinBoxC_valueChanged",
         "on_SliderA_valueChanged",
         "on_SliderB_valueChanged",
@@ -52,7 +51,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'on_Model_dataChanged'
+        // Slot 'updateUI'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_spinBoxA_valueChanged'
         QtMocHelpers::SlotData<void(int)>(3, 2, QMC::AccessPrivate, QMetaType::Void, {{
@@ -60,22 +59,22 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'on_spinBoxB_valueChanged'
         QtMocHelpers::SlotData<void(int)>(5, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 6 },
+            { QMetaType::Int, 4 },
         }}),
         // Slot 'on_spinBoxC_valueChanged'
-        QtMocHelpers::SlotData<void(int)>(7, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 6 },
+        QtMocHelpers::SlotData<void(int)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 4 },
         }}),
         // Slot 'on_SliderA_valueChanged'
-        QtMocHelpers::SlotData<void(int)>(8, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(int)>(7, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Int, 4 },
         }}),
         // Slot 'on_SliderB_valueChanged'
-        QtMocHelpers::SlotData<void(int)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(int)>(8, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Int, 4 },
         }}),
         // Slot 'on_SliderC_valueChanged'
-        QtMocHelpers::SlotData<void(int)>(10, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(int)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Int, 4 },
         }}),
     };
@@ -101,7 +100,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->on_Model_dataChanged(); break;
+        case 0: _t->updateUI(); break;
         case 1: _t->on_spinBoxA_valueChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
         case 2: _t->on_spinBoxB_valueChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
         case 3: _t->on_spinBoxC_valueChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
