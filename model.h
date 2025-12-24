@@ -22,6 +22,7 @@ public:
 
     void saveToFile(const QString& filename);
     void loadFromFile(const QString& filename);
+    void enforceOrder();
 
 Q_SIGNALS:
     void dataChanged();

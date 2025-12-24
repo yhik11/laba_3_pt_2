@@ -7,11 +7,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    // Устанавливаем начальные диапазоны
+    ui->spinBoxA->setRange(0, 100);
+    ui->spinBoxB->setRange(0, 100);
+    ui->spinBoxC->setRange(0, 100);
+
+    ui->SliderA->setRange(0, 100);
+    ui->SliderB->setRange(0, 100);
+    ui->SliderC->setRange(0, 100);
+
     model.loadFromFile("model_data.txt");
 
     setupConnections();
-    updateUI();
-    qDebug() << "The application is running, the values from the file are loaded";
+    // updateUI(); // УДАЛЕНО - вызовется автоматически через on_Model_dataChanged()
+
+    qDebug() << "The application is running";
 }
 
 MainWindow::~MainWindow() {
@@ -35,6 +45,14 @@ void MainWindow::updateUI() {
     ui->SliderB->blockSignals(true);
     ui->SliderC->blockSignals(true);
 
+    // ВАЖНО: Обновляем диапазон слайдера B в зависимости от A и C!
+    ui->SliderB->setMinimum(model.getA());  // B не может быть меньше A
+    ui->SliderB->setMaximum(model.getC());  // B не может быть больше C
+
+    // Также обновляем spinBoxB диапазон
+    ui->spinBoxB->setMinimum(model.getA());
+    ui->spinBoxB->setMaximum(model.getC());
+
     // Устанавливаем значения из модели
     ui->spinBoxA->setValue(model.getA());
     ui->spinBoxB->setValue(model.getB());
@@ -56,8 +74,11 @@ void MainWindow::updateUI() {
     // Отладочный вывод
     static int updateCount = 0;
     updateCount++;
-    qDebug() << updateCount << "A ="
-             << model.getA() << "B =" << model.getB() << "C =" << model.getC();
+    qDebug() << "UI Update #" << updateCount
+             << ": A =" << model.getA()
+             << "B =" << model.getB()
+             << "C =" << model.getC()
+             << "(B range: [" << model.getA() << "-" << model.getC() << "])";
 }
 
 void MainWindow::on_Model_dataChanged() {
